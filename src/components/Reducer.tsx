@@ -10,9 +10,20 @@ interface CartItem extends Item {
     quantity: number;
 }
 
-interface Action {
-    type: string;
+const actionTypes = {
+    ADD_TO_CART: 'ADD_TO_CART1',
+    REMOVE_FROM_CART: 'REMOVE_FROM_CART',
+    INCREMENT_QUANTITY: 'INCREMENT_QUANTITY',
+    DECREMENT_QUANTITY: 'DECREMENT_QUANTITY',
+} as const;
+
+type ActionTypes = typeof actionTypes;
+
+type Action = {
+    type: ActionTypes[keyof ActionTypes];
     item: Item;
+} | {
+    type: 'CLEAR_CART'
 }
 
 const items: Item[] = [
@@ -37,13 +48,7 @@ const items: Item[] = [
     { id: 19, name: 'Washing Machine', price: '450' },
     { id: 20, name: 'Coffee Table', price: '120' }];
 
-const actionTypes = {
-    ADD_TO_CART: 'ADD_TO_CART',
-    REMOVE_FROM_CART: 'REMOVE_FROM_CART',
-    INCREMENT_QUANTITY: 'INCREMENT_QUANTITY',
-    DECREMENT_QUANTITY: 'DECREMENT_QUANTITY',
-    CLEAR_CART: 'CLEAR_CART',
-};
+
 
 const cartReducer = (state: CartItem[], action: Action) => {
     switch (action.type) {
@@ -73,7 +78,7 @@ const cartReducer = (state: CartItem[], action: Action) => {
                     : item
             ).filter(item => item.quantity > 0);
 
-        case actionTypes.CLEAR_CART:
+        case 'CLEAR_CART':
             return [];
         default:
             return state;
@@ -84,27 +89,26 @@ const ShoppingCart = () => {
     const [cart, dispatch] = useReducer(cartReducer, []);
 
     const addToCart = (item: Item) => {
-        dispatch({ type: actionTypes.ADD_TO_CART, item });
+        dispatch({ type: 'ADD_TO_CART1', item });
     };
 
     const removeFromCart = (item: Item) => {
-        dispatch({ type: actionTypes.REMOVE_FROM_CART, item });
+        dispatch({ type: 'REMOVE_FROM_CART', item });
     };
 
     const incrementQuantity = (item: Item) => {
-        dispatch({ type: actionTypes.INCREMENT_QUANTITY, item });
+        dispatch({ type: 'INCREMENT_QUANTITY', item });
     };
 
     const decrementQuantity = (item: Item) => {
-        dispatch({ type: actionTypes.DECREMENT_QUANTITY, item });
+        dispatch({ type: 'DECREMENT_QUANTITY', item });
     };
 
     const clearCart = () => {
         dispatch({
-            type: actionTypes.CLEAR_CART, item: undefined
+            type: 'CLEAR_CART'
         });
     };
-
 
     return (
         <div>
