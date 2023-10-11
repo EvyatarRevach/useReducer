@@ -11,7 +11,7 @@ interface CartItem extends Item {
 }
 
 const actionTypes = {
-    ADD_TO_CART: 'ADD_TO_CART1',
+    ADD_TO_CART: 'ADD_TO_CART',
     REMOVE_FROM_CART: 'REMOVE_FROM_CART',
     INCREMENT_QUANTITY: 'INCREMENT_QUANTITY',
     DECREMENT_QUANTITY: 'DECREMENT_QUANTITY',
@@ -89,7 +89,7 @@ const ShoppingCart = () => {
     const [cart, dispatch] = useReducer(cartReducer, []);
 
     const addToCart = (item: Item) => {
-        dispatch({ type: 'ADD_TO_CART1', item });
+        dispatch({ type: 'ADD_TO_CART', item });
     };
 
     const removeFromCart = (item: Item) => {
